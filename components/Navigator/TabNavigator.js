@@ -1,6 +1,6 @@
 import React from "react";
-import NoteScreen from "../screens/NoteScreen";
-import TasksScreen from "../screens/TasksScreen";
+import NoteScreen from "../../screens/NoteScreen";
+import TasksScreen from "../../screens/TasksScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 

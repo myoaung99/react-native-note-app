@@ -1,11 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
-import CornarButton from "../components/CornarButton";
+import NoteList from "../components/Note/NoteList";
+import CornarButton from "../components/UI/CornarButton";
+import { DUMMY_NOTES } from "./../data/DummyNotes";
 
 function NoteScreen(props) {
   return (
     <SafeAreaView style={styles.screen}>
-      <Text>This is note screen</Text>
+      <NoteList noteList={DUMMY_NOTES} />
       <CornarButton />
     </SafeAreaView>
   );
@@ -16,7 +18,5 @@ export default NoteScreen;
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
