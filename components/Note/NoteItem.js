@@ -1,28 +1,59 @@
-import React from "react";
-import { Text, View, StyleSheet, Pressable, Platform } from "react-native";
+import React, { useState } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  Platform,
+  Alert,
+} from "react-native";
 import { GlobalStyles } from "../../constants/GlobalStyles";
+import HeaderButton from "../UI/HeaderText";
 
 const NoteItem = ({ note, onPress }) => {
+  const longPressHandler = (noteId) => {
+    Alert.alert(
+      "Do you want to delete?",
+      "The following note will be deleted.",
+      [
+        {
+          text: "Delete",
+          onPress: () => console.log("Delete Pressed", noteId),
+          style: "destructive",
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed", noteId),
+          style: "cancel",
+        },
+      ]
+    );
+  };
+
   const excerpt = note.text.split(" ").slice(0, 7).join(" ");
+
   return (
-    <View style={styles.outerContainer}>
-      <Pressable
-        onPress={onPress}
-        android_ripple={{ color: "#ccc" }}
-        // TODO: test press effect on iPhone
-        style={({ pressed }) =>
-          pressed
-            ? Platform.OS === "ios"
-              ? [styles.innerContainer, styles.pressed]
+    <View style={styles.itemContainer}>
+      <View style={[styles.outerContainer]}>
+        <Pressable
+          onPress={onPress}
+          onLongPress={longPressHandler.bind(this, note.id)}
+          android_ripple={{ color: "#ccc" }}
+          // TODO: test press effect on iPhone
+          style={({ pressed }) =>
+            pressed
+              ? Platform.OS === "ios"
+                ? [styles.innerContainer, styles.pressed]
+                : styles.innerContainer
               : styles.innerContainer
-            : styles.innerContainer
-        }
-      >
-        <View style={styles.noteContainer}>
-          <Text style={styles.noteTitle}>{note.title}</Text>
-          <Text style={styles.noteExcerpt}>{excerpt}......</Text>
-        </View>
-      </Pressable>
+          }
+        >
+          <View style={styles.noteContainer}>
+            <Text style={styles.noteTitle}>{note.title}</Text>
+            <Text style={styles.noteExcerpt}>{excerpt}......</Text>
+          </View>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -30,7 +61,12 @@ const NoteItem = ({ note, onPress }) => {
 export default NoteItem;
 
 const styles = StyleSheet.create({
+  itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   outerContainer: {
+    flex: 1,
     marginTop: 10,
     marginBottom: 0,
     marginHorizontal: 15,
