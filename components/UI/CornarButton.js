@@ -7,13 +7,15 @@ import {
   Pressable,
   Platform,
 } from "react-native";
+import { GlobalStyles } from "../../constants/GlobalStyles";
 
-const CornarButton = () => {
+const CornarButton = ({ onPress }) => {
   return (
     <View style={styles.outerContainer}>
       <Pressable
+        onPress={onPress}
         style={styles.buttonContainer}
-        android_ripple={{ color: "#6869ab" }}
+        android_ripple={{ color: "#c9abf7" }}
         // TODO: add ripple effect on iOS
       >
         <View style={styles.button}>
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: 60,
     height: 60,
-    backgroundColor: "#9C9EFE",
+    backgroundColor: GlobalStyles.colors.primary500,
     borderRadius: 30,
   },
 

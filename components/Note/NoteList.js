@@ -1,10 +1,17 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import { FlatList, View, StyleSheet } from "react-native";
 import NoteItem from "./NoteItem";
 
 const NoteList = ({ noteList }) => {
+  const navigation = useNavigation();
   const renderItem = ({ item }) => {
-    return <NoteItem note={item} />;
+    const pressHandler = () => {
+      navigation.navigate("ManageNote", {
+        noteId: item.id,
+      });
+    };
+    return <NoteItem note={item} onPress={pressHandler} />;
   };
   return (
     <View style={styles.container}>
@@ -22,6 +29,5 @@ export default NoteList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#d6d9ff",
   },
 });
