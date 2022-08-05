@@ -3,12 +3,10 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { StyleSheet, Pressable, Text } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-function HeaderText({ onPress, text, color }) {
-  const route = useRoute();
-
+function HeaderText({ onSave, text, color }) {
   return (
     <Pressable
-      onPress={route.params?.onSave}
+      onPress={onSave}
       style={({ pressed }) => pressed && styles.pressed}
     >
       <Text style={[styles.headerText, { color: color }]}>{text}</Text>

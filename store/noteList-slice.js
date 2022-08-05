@@ -8,14 +8,25 @@ export const noteListSlice = createSlice({
   name: "note-slice",
   initialState,
   reducers: {
-    addNote: () => {},
-    removeNote: () => {},
-    updateNote: () => {},
-    setNotes: () => {},
+    addNote: (state, actions) => {
+      // => noteData
+      const id = new Date() + Math.random().toString;
+      const date = new Date().getTime();
+      state.noteList.push({ id, date, ...actions.payload.noteData });
+    },
+    removeNote: (state, actions) => {
+      // => noteId
+    },
+    updateNote: (state, actions) => {
+      // => noteId, noteData
+    },
+    setNotes: (state, actions) => {
+      //=> noteList
+    },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const {} = noteListSlice.actions;
+export const { addNote, removeNote, setNotes, updateNote } =
+  noteListSlice.actions;
 
 export default noteListSlice.reducer;

@@ -3,8 +3,9 @@ import { useNavigation } from "@react-navigation/native";
 import { View, TextInput, StyleSheet, ImageBackground } from "react-native";
 import HeaderText from "../UI/HeaderText";
 import { GlobalStyles } from "../../constants/GlobalStyles";
+import { useSelector, useDispatch } from "react-redux";
 
-const NoteForm = ({ editingNoteId }) => {
+const NoteForm = ({ editingNoteId, onConfirm }) => {
   const [inputValues, setInputValues] = useState({
     title: {
       value: "",
@@ -18,32 +19,20 @@ const NoteForm = ({ editingNoteId }) => {
   const navigation = useNavigation();
 
   const saveHandler = () => {
-    console.log(inputValues);
-    // TODO: Dispatch global state
+    // TODO: Validation
+    onConfirm({ title: inputValues.title.value, text: inputValues.text.value });
+    navigation.goBack();
   };
 
-  useLayoutEffect(() => {
-    if (editingNoteId) {
-      navigation.setOptions({
-        title: "Edit Note",
-      });
-    } else {
-      navigation.setOptions({
-        title: "Create Note",
-      });
-    }
-
+  useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <HeaderText text="Save" color={GlobalStyles.colors.confirm500} />
+        <HeaderText
+          onSave={saveHandler}
+          text="Save"
+          color={GlobalStyles.colors.confirm500}
+        />
       ),
-    });
-  }, []);
-
-  // sync with header button
-  useEffect(() => {
-    navigation.setParams({
-      onSave: saveHandler,
     });
   }, [inputValues]);
 
