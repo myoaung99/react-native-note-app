@@ -5,14 +5,15 @@ import HeaderText from "../UI/HeaderText";
 import { GlobalStyles } from "../../constants/GlobalStyles";
 import { useSelector, useDispatch } from "react-redux";
 
-const NoteForm = ({ editingNoteId, onConfirm }) => {
+const NoteForm = ({ onConfirm, editingNote }) => {
+  console.log("noteform", editingNote);
   const [inputValues, setInputValues] = useState({
     title: {
-      value: "",
+      value: editingNote ? editingNote.title : "",
       isValid: true,
     },
     text: {
-      value: "",
+      value: editingNote ? editingNote.text : "",
       isValid: true,
     },
   });

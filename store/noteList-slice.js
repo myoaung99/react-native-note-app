@@ -8,19 +8,24 @@ export const noteListSlice = createSlice({
   name: "note-slice",
   initialState,
   reducers: {
-    addNote: (state, actions) => {
+    addNote: (state, action) => {
       // => noteData
-      const id = new Date() + Math.random().toString;
+      const id = new Date() + Math.random();
       const date = new Date().getTime();
-      state.noteList.push({ id, date, ...actions.payload.noteData });
+      state.noteList.unshift({ id, date, ...action.payload.noteData });
     },
-    removeNote: (state, actions) => {
+    removeNote: (state, action) => {
       // => noteId
     },
-    updateNote: (state, actions) => {
+    updateNote: (state, action) => {
       // => noteId, noteData
+      const { id: noteId, data: noteData } = action.payload;
+      const updatingItemIndex = state.noteList.findIndex(
+        (note) => note.id === noteId
+      );
+      state.noteList[updatingItemIndex] = { id: noteId, ...noteData };
     },
-    setNotes: (state, actions) => {
+    setNotes: (state, action) => {
       //=> noteList
     },
   },

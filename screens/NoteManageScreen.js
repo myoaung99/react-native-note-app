@@ -2,11 +2,13 @@ import React, { useLayoutEffect, useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import NoteForm from "../components/Note/NoteForm";
 import { useSelector, useDispatch } from "react-redux";
-import { addNote } from "../store/noteList-slice";
+import { addNote, updateNote } from "../store/noteList-slice";
 import { GlobalStyles } from "../constants/GlobalStyles";
 
 function NoteManageScreen({ navigation, route }) {
+  const notes = useSelector((state) => state.notes.noteList);
   const editingNoteId = route.params?.noteId;
+  const editingNote = notes.find((note) => note.id === editingNoteId);
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
@@ -25,19 +27,22 @@ function NoteManageScreen({ navigation, route }) {
     // console.log("confirmHandler", noteData);
     if (editingNoteId) {
       // dispatch update function
-      console.log("update note");
+      dispatch(updateNote({ id: editingNoteId, data: noteData }));
     } else {
       // dispatch add function
       dispatch(addNote({ noteData }));
     }
   };
 
-  const notes = useSelector((state) => state.notes.noteList);
   console.log(notes);
 
   return (
     <SafeAreaView style={styles.screen}>
-      <NoteForm editingNoteId={editingNoteId} onConfirm={confirmHandler} />
+      <NoteForm
+        editingNoteId={editingNoteId}
+        onConfirm={confirmHandler}
+        editingNote={editingNote}
+      />
     </SafeAreaView>
   );
 }
