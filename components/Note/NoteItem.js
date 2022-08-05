@@ -7,27 +7,24 @@ import {
   Platform,
   Alert,
 } from "react-native";
+import { removeNote } from "../../store/noteList-slice";
 import { GlobalStyles } from "../../constants/GlobalStyles";
-import HeaderButton from "../UI/HeaderText";
+import { useDispatch } from "react-redux";
 
 const NoteItem = ({ note, onPress }) => {
+  const dispatch = useDispatch();
   const longPressHandler = (noteId) => {
-    Alert.alert(
-      "Do you want to delete?",
-      "The following note will be deleted.",
-      [
-        {
-          text: "Delete",
-          onPress: () => console.log("Delete Pressed", noteId),
-          style: "destructive",
-        },
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed", noteId),
-          style: "cancel",
-        },
-      ]
-    );
+    Alert.alert("Are your sure?", "The following note will be deleted.", [
+      {
+        text: "Delete",
+        onPress: () => dispatch(removeNote({ noteId: note.id })),
+        style: "destructive",
+      },
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+    ]);
   };
 
   const excerpt = note.text.split(" ").slice(0, 7).join(" ");

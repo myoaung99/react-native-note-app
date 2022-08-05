@@ -1,12 +1,11 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, TextInput, StyleSheet, ImageBackground } from "react-native";
+import { View, TextInput, StyleSheet, Text, Keyboard } from "react-native";
 import HeaderText from "../UI/HeaderText";
 import { GlobalStyles } from "../../constants/GlobalStyles";
-import { useSelector, useDispatch } from "react-redux";
+import { storeNoteServer } from "../../utils/http-request";
 
 const NoteForm = ({ onConfirm, editingNote }) => {
-  console.log("noteform", editingNote);
   const [inputValues, setInputValues] = useState({
     title: {
       value: editingNote ? editingNote.title : "",
@@ -14,14 +13,29 @@ const NoteForm = ({ onConfirm, editingNote }) => {
     },
     text: {
       value: editingNote ? editingNote.text : "",
-      isValid: true,
     },
   });
   const navigation = useNavigation();
 
-  const saveHandler = () => {
+  const saveHandler = async () => {
     // TODO: Validation
-    onConfirm({ title: inputValues.title.value, text: inputValues.text.value });
+    const { title, text } = inputValues;
+    const titleIsValid = title.value.trim().length > 0;
+    if (!titleIsValid) {
+      console.log("is invalid");
+      setInputValues((currInput) => {
+        return {
+          title: { value: currInput.title.value, isValid: titleIsValid },
+          text: { value: currInput.text.value },
+        };
+      });
+      return;
+    }
+
+    console.log(inputValues);
+
+    onConfirm({ title: title.value, text: text.value });
+    Keyboard.dismiss();
     navigation.goBack();
   };
 
@@ -53,11 +67,15 @@ const NoteForm = ({ onConfirm, editingNote }) => {
         style={styles.titleInput}
         placeholder="Title"
         autoCapitalize="sentences"
+        isValid={inputValues.title.isValid}
         autoCorrect={false}
         autoFocus={true}
         value={inputValues.title.value}
         onChangeText={textInputHandler.bind(this, "title")}
       />
+      {!inputValues.title.isValid && (
+        <Text style={styles.errorText}>At least enter title to save</Text>
+      )}
       <TextInput
         style={styles.inputForm}
         multiline={true}
@@ -87,5 +105,10 @@ const styles = StyleSheet.create({
     minHeight: "100%",
     fontSize: 18,
     padding: 10,
+  },
+  errorText: {
+    color: "#e84938",
+    textAlign: "center",
+    marginTop: -20,
   },
 });

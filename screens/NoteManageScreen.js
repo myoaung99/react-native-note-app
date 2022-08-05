@@ -4,6 +4,7 @@ import NoteForm from "../components/Note/NoteForm";
 import { useSelector, useDispatch } from "react-redux";
 import { addNote, updateNote } from "../store/noteList-slice";
 import { GlobalStyles } from "../constants/GlobalStyles";
+import { storeNoteServer } from "../utils/http-request";
 
 function NoteManageScreen({ navigation, route }) {
   const notes = useSelector((state) => state.notes.noteList);
@@ -23,18 +24,17 @@ function NoteManageScreen({ navigation, route }) {
     }
   }, []);
 
-  const confirmHandler = (noteData) => {
+  const confirmHandler = async (noteData) => {
     // console.log("confirmHandler", noteData);
     if (editingNoteId) {
       // dispatch update function
       dispatch(updateNote({ id: editingNoteId, data: noteData }));
     } else {
       // dispatch add function
-      dispatch(addNote({ noteData }));
+      const id = await storeNoteServer({ ...noteData });
+      dispatch(addNote({ id, ...noteData }));
     }
   };
-
-  console.log(notes);
 
   return (
     <SafeAreaView style={styles.screen}>
