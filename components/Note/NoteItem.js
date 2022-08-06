@@ -82,11 +82,6 @@ const styles = StyleSheet.create({
     overflow: Platform.OS === "android" ? "hidden" : "visible",
 
     // TODO: test this shadow effect on iPhone
-    // ios shandow
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
   },
   innerContainer: {
     minHeight: 90,

@@ -32,6 +32,7 @@ const NoteForm = ({ onConfirm, editingNote }) => {
           text: { value: currInput.text.value },
         };
       });
+      setIsFetching(false);
       return;
     }
 
