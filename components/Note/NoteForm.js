@@ -4,8 +4,10 @@ import { View, TextInput, StyleSheet, Text, Keyboard } from "react-native";
 import HeaderText from "../UI/HeaderText";
 import { GlobalStyles } from "../../constants/GlobalStyles";
 import { storeNoteServer } from "../../utils/http-request";
+import LoadingOverlay from "../UI/LoadingOverlay";
 
 const NoteForm = ({ onConfirm, editingNote }) => {
+  const [isFetching, setIsFetching] = useState(false);
   const [inputValues, setInputValues] = useState({
     title: {
       value: editingNote ? editingNote.title : "",
@@ -19,6 +21,7 @@ const NoteForm = ({ onConfirm, editingNote }) => {
 
   const saveHandler = async () => {
     // TODO: Validation
+    setIsFetching(true);
     const { title, text } = inputValues;
     const titleIsValid = title.value.trim().length > 0;
     if (!titleIsValid) {
@@ -32,9 +35,12 @@ const NoteForm = ({ onConfirm, editingNote }) => {
       return;
     }
 
-    console.log(inputValues);
+    onConfirm({
+      title: title.value,
+      text: text.value,
+      date: new Date().toISOString(),
+    });
 
-    onConfirm({ title: title.value, text: text.value });
     Keyboard.dismiss();
     navigation.goBack();
   };
@@ -60,6 +66,10 @@ const NoteForm = ({ onConfirm, editingNote }) => {
       },
     }));
   };
+
+  if (isFetching) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <View style={styles.container}>

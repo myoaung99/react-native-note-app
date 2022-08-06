@@ -10,14 +10,22 @@ import {
 import { removeNote } from "../../store/noteList-slice";
 import { GlobalStyles } from "../../constants/GlobalStyles";
 import { useDispatch } from "react-redux";
+import { deleteNoteServer } from "../../utils/http-request";
+import { getFormattedDate } from "../../utils/date";
 
 const NoteItem = ({ note, onPress }) => {
   const dispatch = useDispatch();
+
+  const deleteHandler = () => {
+    deleteNoteServer(note.id);
+    dispatch(removeNote({ noteId: note.id }));
+  };
+
   const longPressHandler = (noteId) => {
     Alert.alert("Are your sure?", "The following note will be deleted.", [
       {
         text: "Delete",
-        onPress: () => dispatch(removeNote({ noteId: note.id })),
+        onPress: deleteHandler,
         style: "destructive",
       },
       {
@@ -48,6 +56,9 @@ const NoteItem = ({ note, onPress }) => {
           <View style={styles.noteContainer}>
             <Text style={styles.noteTitle}>{note.title}</Text>
             <Text style={styles.noteExcerpt}>{excerpt}......</Text>
+            <Text style={styles.noteDate}>
+              {getFormattedDate(new Date(note.date))}
+            </Text>
           </View>
         </Pressable>
       </View>
@@ -100,5 +111,11 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.75,
+  },
+  noteDate: {
+    color: "gray",
+    fontSize: 12,
+    marginTop: 5,
+    marginLeft: 2,
   },
 });

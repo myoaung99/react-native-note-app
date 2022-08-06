@@ -10,8 +10,7 @@ export const noteListSlice = createSlice({
   reducers: {
     addNote: (state, action) => {
       // => noteData
-      const date = new Date().toISOString();
-      state.noteList.unshift({ date, ...action.payload });
+      state.noteList.unshift(action.payload);
     },
     removeNote: (state, action) => {
       // => noteId

@@ -16,10 +16,19 @@ export const fetchNotesServer = async () => {
       id: key,
       title: response.data[key].title,
       text: response.data[key].text,
+      date: response.data[key].date,
     };
 
     noteList.push(note);
   }
 
   return noteList;
+};
+
+export const updateNoteServer = async (id, note) => {
+  return await axios.put(BACKEND_URL + `/notes/${id}.json`, note);
+};
+
+export const deleteNoteServer = async (id) => {
+  return await axios.delete(BACKEND_URL + `/notes/${id}.json`);
 };

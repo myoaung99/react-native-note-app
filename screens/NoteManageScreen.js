@@ -4,10 +4,11 @@ import NoteForm from "../components/Note/NoteForm";
 import { useSelector, useDispatch } from "react-redux";
 import { addNote, updateNote } from "../store/noteList-slice";
 import { GlobalStyles } from "../constants/GlobalStyles";
-import { storeNoteServer } from "../utils/http-request";
+import { storeNoteServer, updateNoteServer } from "../utils/http-request";
 
 function NoteManageScreen({ navigation, route }) {
   const notes = useSelector((state) => state.notes.noteList);
+
   const editingNoteId = route.params?.noteId;
   const editingNote = notes.find((note) => note.id === editingNoteId);
   const dispatch = useDispatch();
@@ -25,9 +26,9 @@ function NoteManageScreen({ navigation, route }) {
   }, []);
 
   const confirmHandler = async (noteData) => {
-    // console.log("confirmHandler", noteData);
     if (editingNoteId) {
       // dispatch update function
+      await updateNoteServer(editingNoteId, noteData);
       dispatch(updateNote({ id: editingNoteId, data: noteData }));
     } else {
       // dispatch add function
