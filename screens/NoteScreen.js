@@ -7,12 +7,14 @@ import { setNotes } from "../store/noteList-slice";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchNotesServer } from "../utils/http-request";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 function NoteScreen({ navigation }) {
   const noteList = useSelector((state) => state.notes.noteList);
   const dispatch = useDispatch();
 
   const [isFetching, setIsFetching] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   const btnPressHandler = () => {
     navigation.navigate("ManageNote");
@@ -20,13 +22,21 @@ function NoteScreen({ navigation }) {
 
   useEffect(() => {
     const fetch = async () => {
-      const notes = await fetchNotesServer();
-      setIsFetching(false);
-      dispatch(setNotes(notes));
+      try {
+        const notes = await fetchNotesServer();
+        setIsFetching(false);
+        dispatch(setNotes(notes));
+      } catch (error) {
+        setHasError(true);
+      }
     };
 
     fetch();
   }, []);
+
+  if (hasError && !isFetching) {
+    return <ErrorOverlay />;
+  }
 
   if (isFetching) {
     return <LoadingOverlay />;

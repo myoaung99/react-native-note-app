@@ -7,7 +7,6 @@ import { storeNoteServer } from "../../utils/http-request";
 import LoadingOverlay from "../UI/LoadingOverlay";
 
 const NoteForm = ({ onConfirm, editingNote }) => {
-  const [isFetching, setIsFetching] = useState(false);
   const [inputValues, setInputValues] = useState({
     title: {
       value: editingNote ? editingNote.title : "",
@@ -21,18 +20,18 @@ const NoteForm = ({ onConfirm, editingNote }) => {
 
   const saveHandler = async () => {
     // TODO: Validation
-    setIsFetching(true);
     const { title, text } = inputValues;
+
     const titleIsValid = title.value.trim().length > 0;
+
     if (!titleIsValid) {
-      console.log("is invalid");
       setInputValues((currInput) => {
         return {
           title: { value: currInput.title.value, isValid: titleIsValid },
           text: { value: currInput.text.value },
         };
       });
-      setIsFetching(false);
+
       return;
     }
 
@@ -41,9 +40,6 @@ const NoteForm = ({ onConfirm, editingNote }) => {
       text: text.value,
       date: new Date().toISOString(),
     });
-
-    Keyboard.dismiss();
-    navigation.goBack();
   };
 
   useEffect(() => {
@@ -68,10 +64,6 @@ const NoteForm = ({ onConfirm, editingNote }) => {
     }));
   };
 
-  if (isFetching) {
-    return <LoadingOverlay />;
-  }
-
   return (
     <View style={styles.container}>
       <TextInput
@@ -80,7 +72,6 @@ const NoteForm = ({ onConfirm, editingNote }) => {
         autoCapitalize="sentences"
         isValid={inputValues.title.isValid}
         autoCorrect={false}
-        autoFocus={true}
         value={inputValues.title.value}
         onChangeText={textInputHandler.bind(this, "title")}
       />

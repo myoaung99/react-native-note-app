@@ -15,7 +15,7 @@ export const noteListSlice = createSlice({
     removeNote: (state, action) => {
       // => noteId
       state.noteList = state.noteList.filter(
-        (note) => note.id !== action.payload.noteId
+        (note) => note.id !== action.payload
       );
     },
     updateNote: (state, action) => {
@@ -27,8 +27,8 @@ export const noteListSlice = createSlice({
       state.noteList[updatingItemIndex] = { id: noteId, ...noteData };
     },
     setNotes: (state, action) => {
-      //=> noteList
-      state.noteList = action.payload;
+      //=> noteList obj[]
+      state.noteList = action.payload.reverse();
     },
   },
 });

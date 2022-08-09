@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList, View, StyleSheet, Text } from "react-native";
 import NoteItem from "./NoteItem";
+import { GlobalStyles } from "../../constants/GlobalStyles";
 
 const NoteList = ({ noteList }) => {
   const navigation = useNavigation();
@@ -45,7 +46,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    fontSize: 16,
-    color: "gray",
+    color: GlobalStyles.colors.primary500,
   },
 });
