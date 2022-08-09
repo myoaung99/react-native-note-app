@@ -1,13 +1,19 @@
 import React from "react";
-import NoteScreen from "../../screens/NoteScreen";
-import TasksScreen from "../../screens/TasksScreen";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 import { GlobalStyles } from "../../constants/GlobalStyles";
 
-const Tab = createMaterialTopTabNavigator();
+import { createStackNavigator } from "@react-navigation/stack";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-function TabNavigator(props) {
+import NoteManageScreen from "../../screens/NoteManageScreen";
+import NoteScreen from "../../screens/NoteScreen";
+import TasksScreen from "../../screens/TasksScreen";
+
+const Tab = createMaterialTopTabNavigator();
+const Stack = createStackNavigator();
+
+function TabNavigator() {
   const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
@@ -30,4 +36,19 @@ function TabNavigator(props) {
   );
 }
 
-export default TabNavigator;
+function AuthenticatedStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+      <Stack.Screen
+        name="Home"
+        component={TabNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="ManageNote" component={NoteManageScreen} />
+    </Stack.Navigator>
+  );
+}
+
+export default AuthenticatedStack;
