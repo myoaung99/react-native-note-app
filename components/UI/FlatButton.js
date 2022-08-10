@@ -1,56 +1,31 @@
-import React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { GlobalStyles } from "../../constants/GlobalStyles";
 
-const FlatButton = ({ children, onPress, flat }) => {
+function FlatButton({ children, onPress }) {
   return (
-    <View style={styles.outerContainer}>
-      <Pressable
-        // ios on press
-        onPress={onPress}
-        style={[styles.buttonContainer, flat && styles.flatButtonContainer]}
-        android_ripple={{ color: "#c9abf7" }}
-      >
-        <View style={styles.button}>
-          <Text style={[styles.buttonText, flat && styles.flatButtonText]}>
-            {children}
-          </Text>
-        </View>
-      </Pressable>
-    </View>
+    <Pressable
+      style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      onPress={onPress}
+    >
+      <View>
+        <Text style={styles.buttonText}>{children}</Text>
+      </View>
+    </Pressable>
   );
-};
+}
 
 export default FlatButton;
 
 const styles = StyleSheet.create({
-  outerContainer: {
-    flex: 1,
-    maxWidth: 300,
-    borderRadius: 30,
-    overflow: Platform.OS === "android" ? "hidden" : "visible",
-  },
-
-  buttonContainer: {
-    backgroundColor: GlobalStyles.colors.primary500,
-    borderRadius: 30,
-  },
-
   button: {
-    alignItems: "center",
-    padding: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
   },
-
+  pressed: {
+    opacity: 0.7,
+  },
   buttonText: {
-    color: "white",
-    fontSize: 16,
-  },
-  flatButtonContainer: {
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: GlobalStyles.colors.primary500,
-  },
-  flatButtonText: {
+    textAlign: "center",
     color: GlobalStyles.colors.primary500,
   },
 });

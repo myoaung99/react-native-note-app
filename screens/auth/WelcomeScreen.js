@@ -1,8 +1,15 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
-import FlatButton from "../../components/UI/FlatButton";
+import AuthButton from "../../components/UI/AuthButton";
 
-const WelcomeScreen = () => {
+const WelcomeScreen = ({ navigation }) => {
+  const authNavigation = (screen) => {
+    if (screen === "login") {
+      navigation.navigate("Login");
+    } else if (screen === "signup") {
+      navigation.navigate("Signup");
+    }
+  };
   return (
     <View style={styles.screen}>
       <View style={styles.imageContainer}>
@@ -20,11 +27,22 @@ const WelcomeScreen = () => {
       </View>
 
       <View style={styles.button}>
-        <FlatButton>Login</FlatButton>
+        <AuthButton
+          style={{ flex: 1 }}
+          onPress={authNavigation.bind(this, "login")}
+        >
+          Login
+        </AuthButton>
       </View>
 
       <View style={styles.button}>
-        <FlatButton flat>Signup</FlatButton>
+        <AuthButton
+          style={{ flex: 1 }}
+          onPress={authNavigation.bind(this, "signup")}
+          outline
+        >
+          Sign up
+        </AuthButton>
       </View>
     </View>
   );
