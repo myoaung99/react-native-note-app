@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   imageContainer: {
-    marginBottom: 30,
+    marginBottom: 20,
     width: 250,
     height: 250,
   },
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   textContainer: {
-    marginBottom: 40,
+    marginBottom: 80,
   },
   title: {
     fontSize: 20,
