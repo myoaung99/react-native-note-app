@@ -32,13 +32,13 @@ const styles = StyleSheet.create({
   outerContainer: {
     width: "100%",
     maxWidth: 250,
-    borderRadius: 30,
+    borderRadius: 4,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
 
   buttonContainer: {
     backgroundColor: GlobalStyles.colors.primary500,
-    borderRadius: 30,
+    borderRadius: 4,
   },
 
   button: {

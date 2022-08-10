@@ -82,6 +82,6 @@ const styles = StyleSheet.create({
   },
   buttons: {
     alignSelf: "center",
-    marginTop: 6,
+    marginTop: 16,
   },
 });

@@ -13,6 +13,7 @@ function AuthStack() {
     <Stack.Navigator
       screenOptions={{
         headerTitleAlign: "center",
+        headerShown: false,
       }}
     >
       <Stack.Screen name="Welcome" component={WelcomeScreen} />

@@ -6,6 +6,7 @@ import AuthenticatedStack from "./components/Navigator/AuthenticatedStack";
 import AuthStack from "./components/Navigator/AuthStack";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import AuthContextProvider from "./store/auth-context";
 
 function Root() {
   return <AuthStack />;
@@ -15,11 +16,13 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <StatusBar style="dark" />
-      <Provider store={store}>
-        <NavigationContainer>
-          <Root />
-        </NavigationContainer>
-      </Provider>
+      <AuthContextProvider>
+        <Provider store={store}>
+          <NavigationContainer>
+            <Root />
+          </NavigationContainer>
+        </Provider>
+      </AuthContextProvider>
     </SafeAreaProvider>
   );
 }

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const BACKEND_URL = "https://react-note-app-c762b-default-rtdb.firebaseio.com";
+const API_KEY = "AIzaSyAAXqTIaZEMQbLj7bImV0itSdILndsal9s";
 
 export const storeNoteServer = async (note) => {
   const response = await axios.post(BACKEND_URL + "/notes.json", note);
@@ -31,4 +32,15 @@ export const updateNoteServer = async (id, note) => {
 
 export const deleteNoteServer = async (id) => {
   return await axios.delete(BACKEND_URL + `/notes/${id}.json`);
+};
+
+export const authenticate = async () => {};
+
+export const loginUser = async (email, password) => {};
+
+export const createUser = async (email, password) => {
+  axios.post(
+    `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
+    { email, password, returnSecureToken: true }
+  );
 };
