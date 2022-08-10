@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   imageContainer: {
-    marginBottom: 20,
+    marginBottom: 30,
     width: 250,
     height: 250,
   },
