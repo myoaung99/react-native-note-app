@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   titleInput: {
-    fontSize: 24,
+    fontSize: 22,
     marginBottom: 10,
     padding: 10,
   },

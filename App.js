@@ -13,18 +13,17 @@ import * as SplashScreen from "expo-splash-screen";
 
 function Root() {
   const authCtx = useContext(AuthContext);
-  const [isFetchingStoredToken, setIsFetchingStoredToken] = useState(null);
+  const [isFetchingStoredToken, setIsFetchingStoredToken] = useState(true);
   useEffect(() => {
     const fetchStoredToken = async () => {
       const token = await AsyncStorage.getItem("token");
       if (token) {
         authCtx.authenticate(token);
       }
+      setIsFetchingStoredToken(false);
     };
     try {
-      setIsFetchingStoredToken(true);
       fetchStoredToken();
-      setIsFetchingStoredToken(false);
     } catch (e) {
       console.log("Something went wrong at fetching stored token.");
     }

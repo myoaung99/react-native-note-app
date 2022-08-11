@@ -2,9 +2,9 @@ import React from "react";
 import { Platform, View, StyleSheet, Text, Pressable } from "react-native";
 import { GlobalStyles } from "../../constants/GlobalStyles";
 
-const CornarButton = ({ onPress }) => {
+const CornarButton = ({ onPress, style }) => {
   return (
-    <View style={styles.outerContainer}>
+    <View style={[styles.outerContainer, style]}>
       <Pressable
         onPress={onPress}
         style={({ pressed }) =>
@@ -30,8 +30,6 @@ export default CornarButton;
 const styles = StyleSheet.create({
   outerContainer: {
     position: "absolute",
-    bottom: 0,
-    right: 0,
     margin: 20,
     borderRadius: 30,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
