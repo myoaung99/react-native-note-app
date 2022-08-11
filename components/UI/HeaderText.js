@@ -19,6 +19,7 @@ export default HeaderText;
 const styles = StyleSheet.create({
   headerText: {
     padding: 10,
+    fontSize: 18,
   },
   pressed: {
     opacity: 0.5,
