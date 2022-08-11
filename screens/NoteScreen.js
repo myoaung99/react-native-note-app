@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Alert } from "react-native";
 import NoteForm from "../components/Note/NoteForm";
 import NoteList from "../components/Note/NoteList";
 import CornarButton from "../components/UI/CornarButton";
@@ -8,8 +8,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchNotesServer } from "../utils/http-request";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { GlobalStyles } from "../constants/GlobalStyles";
 import IconButton from "../components/UI/IconButton";
 import { AuthContext } from "../store/auth-context";
 
@@ -26,7 +24,10 @@ function NoteScreen({ navigation }) {
   };
 
   const loggoutHandler = () => {
-    authCtx.logout();
+    Alert.alert("Log Out", "Are you sure you want to log out?", [
+      { text: "Okay", onPress: () => authCtx.logout(), style: "default" },
+      { text: "Cancel", style: "cancel" },
+    ]);
   };
 
   useEffect(() => {
