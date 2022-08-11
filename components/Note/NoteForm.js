@@ -19,7 +19,6 @@ const NoteForm = ({ onConfirm, editingNote }) => {
   const navigation = useNavigation();
 
   const saveHandler = async () => {
-    // TODO: Validation
     const { title, text } = inputValues;
 
     const titleIsValid = title.value.trim().length > 0;

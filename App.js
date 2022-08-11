@@ -26,7 +26,6 @@ function Root() {
         fetchStoredToken();
     }, []);
 
-
     if(!isFetchingStoredToken){
         SplashScreen.hideAsync();
     }
