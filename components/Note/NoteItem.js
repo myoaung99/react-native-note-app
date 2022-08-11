@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
   noteContainer: {
     flex: 1,
     paddingHorizontal: 15,
+    paddingVertical: 10,
     justifyContent: "center",
   },
   noteTitle: {

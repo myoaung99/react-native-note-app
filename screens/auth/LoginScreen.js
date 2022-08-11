@@ -1,23 +1,28 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import AuthContent from "../../components/Auth/AuthContent";
 import {loginUser} from "../../utils/http-request";
 import LoadingOverlay from "../../components/UI/LoadingOverlay";
 import ErrorOverlay from "../../components/UI/ErrorOverlay";
+import {AuthContext} from "../../store/auth-context";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [hasError, setHasError] = useState(false);
 
+  const authCtx = useContext(AuthContext);
+
   const confirmHandler = async ({email, password})=>{
     setIsAuthenticating(true);
     try{
-      const id = await loginUser(email, password);
-      console.log(id);
+      const idToken = await loginUser(email, password);
+      authCtx.authenticate(idToken);
+      await AsyncStorage.setItem('token', idToken);
     }catch(e){
       setHasError(true);
+      setIsAuthenticating(false);
     }
-    setIsAuthenticating(false);
   }
 
   if(hasError && !isAuthenticating){
