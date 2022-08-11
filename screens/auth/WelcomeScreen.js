@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   textContainer: {
-    marginBottom: 40,
+    marginBottom: 80,
   },
   title: {
     fontSize: 20,

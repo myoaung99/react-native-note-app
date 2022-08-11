@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
 import { GlobalStyles } from "../../constants/GlobalStyles";
 
 const AuthButton = ({ children, onPress, outline, style }) => {
@@ -8,10 +8,21 @@ const AuthButton = ({ children, onPress, outline, style }) => {
       <Pressable
         // ios on press
         onPress={onPress}
-        style={[
-          styles.buttonContainer,
-          outline && styles.outlineButtonContainer,
-        ]}
+        style={({ pressed }) =>
+          pressed
+            ? Platform.OS === "ios"
+              ? [
+                  styles.pressed,
+                  styles.buttonContainer,
+                  outline && styles.outlineButtonContainer,
+                  outline && styles.outlinePressed,
+                ]
+              : [
+                  styles.buttonContainer,
+                  outline && styles.outlineButtonContainer,
+                ]
+            : [styles.buttonContainer, outline && styles.outlineButtonContainer]
+        }
         android_ripple={{ color: "#c9abf7" }}
       >
         <View style={styles.button}>
@@ -57,5 +68,12 @@ const styles = StyleSheet.create({
   },
   outlineButtonText: {
     color: GlobalStyles.colors.primary500,
+  },
+  pressed: {
+    opacity: 0.75,
+  },
+  outlinePressed: {
+    opacity: 0.75,
+    backgroundColor: GlobalStyles.colors.primary100,
   },
 });
