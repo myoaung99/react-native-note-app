@@ -1,8 +1,33 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import AuthContent from "../../components/Auth/AuthContent";
+import {loginUser} from "../../utils/http-request";
+import LoadingOverlay from "../../components/UI/LoadingOverlay";
+import ErrorOverlay from "../../components/UI/ErrorOverlay";
 
 const LoginScreen = () => {
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  const confirmHandler = async ({email, password})=>{
+    setIsAuthenticating(true);
+    try{
+      const id = await loginUser(email, password);
+      console.log(id);
+    }catch(e){
+      setHasError(true);
+    }
+    setIsAuthenticating(false);
+  }
+
+  if(hasError && !isAuthenticating){
+    return <ErrorOverlay/>
+  }
+
+  if(isAuthenticating) {
+    return <LoadingOverlay />
+  }
+
   return (
     <View style={styles.screen}>
       <View style={styles.imageContainer}>
@@ -12,7 +37,7 @@ const LoginScreen = () => {
         />
       </View>
       <View style={styles.formContainer}>
-        <AuthContent isLogin onAuthenticate={() => {}} />
+        <AuthContent isLogin onAuthenticate={confirmHandler} />
       </View>
     </View>
   );

@@ -1,46 +1,66 @@
-import React from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
+import React, {useState} from "react";
+import {View, StyleSheet, Text, Image} from "react-native";
 import AuthContent from "../../components/Auth/AuthContent";
-import { createUser } from "../../utils/http-request";
+import {createUser} from "../../utils/http-request";
+import LoadingOverlay from "../../components/UI/LoadingOverlay";
+import ErrorOverlay from "../../components/UI/ErrorOverlay";
 
 const SignUpScreen = () => {
-  const confirmHandler = (email, password) => {
-    console.log(email, password, " Sign Up");
-  };
+    const [isAuthenticating, setIsAuthenticating] = useState(false);
+    const [hasError, setHasError] = useState(false);
 
-  return (
-    <View style={styles.screen}>
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          source={require("./../../assets/note-signup.png")}
-        />
-      </View>
-      <AuthContent onAuthenticate={confirmHandler} />
-    </View>
-  );
+    const confirmHandler = async ({email, password}) => {
+        setIsAuthenticating(true);
+        try {
+            const id = await createUser(email, password);
+            console.log(id);
+        } catch (e) {
+            setHasError(true);
+        }
+        setIsAuthenticating(false);
+    };
+
+    if (hasError && !isAuthenticating) {
+        return <ErrorOverlay/>
+    }
+
+    if (isAuthenticating) {
+        return <LoadingOverlay/>
+    }
+
+    return (
+        <View style={styles.screen}>
+            <View style={styles.imageContainer}>
+                <Image
+                    style={styles.image}
+                    source={require("./../../assets/note-signup.png")}
+                />
+            </View>
+            <AuthContent onAuthenticate={confirmHandler}/>
+        </View>
+    );
 };
 
 export default SignUpScreen;
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  imageContainer: {
-    width: "95%",
-    height: 250,
-    paddingTop: 10,
-    alignSelf: "center",
-    marginBottom: 20,
+    screen: {
+        flex: 1,
+        justifyContent: "center",
+    },
+    imageContainer: {
+        width: "95%",
+        height: 250,
+        paddingTop: 10,
+        alignSelf: "center",
+        marginBottom: 20,
 
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: "90%",
-    height: "90%",
-  },
-  formContainer: {},
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    image: {
+        width: "90%",
+        height: "90%",
+    },
+    formContainer: {},
 });

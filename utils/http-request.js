@@ -19,7 +19,6 @@ export const fetchNotesServer = async () => {
       text: response.data[key].text,
       date: response.data[key].date,
     };
-
     noteList.push(note);
   }
 
@@ -34,13 +33,19 @@ export const deleteNoteServer = async (id) => {
   return await axios.delete(BACKEND_URL + `/notes/${id}.json`);
 };
 
-export const authenticate = async () => {};
+export const authenticate = async (mode, email, password) => {
+  const url = 'https://identitytoolkit.googleapis.com/v1/accounts:';
+  const response = await axios.post(
+      url
+      + `${mode === 'signup' ? 'signUp?key=' : 'signInWithPassword?key='}`
+      + API_KEY, {email, password});
+  return response.data.idToken;
+};
 
-export const loginUser = async (email, password) => {};
+export const loginUser = async (email, password) => {
+ return authenticate('login', email, password);
+};
 
 export const createUser = async (email, password) => {
-  axios.post(
-    `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
-    { email, password, returnSecureToken: true }
-  );
+  return authenticate('signup', email, password);
 };
